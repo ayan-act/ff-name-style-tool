@@ -1,0 +1,1024 @@
+<!-- FF Bio Preview Gallery — Premium Scroll-Driven 3D Showcase
+     Drop into a WordPress Custom HTML block. Self-contained: HTML + CSS + JS.
+     Only external dep: Three.js (ES module CDN) used for the subtle background glow.
+     All classes are prefixed .ffbpg- to avoid theme/Elementor conflicts. -->
+<section class="ffbpg-root" aria-label="Free Fire Bio Preview Gallery">
+  <div class="ffbpg-pin-wrap">
+    <!-- Deliberately empty until the gallery reaches the viewport. -->
+    <div class="ffbpg-mount"></div>
+    <div class="ffbpg-seo-images" hidden="" aria-hidden="true">
+      <img src="https://ffbiocodes.com/wp-content/uploads/2026/07/Asraful.webp" alt="Asraful Free Fire bio code preview">
+      <img src="https://ffbiocodes.com/wp-content/uploads/2026/07/Saji.webp" alt="Saji Free Fire bio code preview">
+      <img src="https://ffbiocodes.com/wp-content/uploads/2026/07/San.webp" alt="San Free Fire bio code preview">
+      <img src="https://ffbiocodes.com/wp-content/uploads/2026/07/Ayan.webp" alt="Ayan Free Fire bio code preview">
+      <img src="https://ffbiocodes.com/wp-content/uploads/2026/07/Raj-Boss.webp" alt="Raj Boss Free Fire bio code preview">
+      <img src="https://ffbiocodes.com/wp-content/uploads/2026/07/Munna.webp" alt="Munna Free Fire bio code preview">
+    </div>
+  </div>
+</section>
+
+<style>
+/* ============================================================
+   FF Bio Preview Gallery — scoped styles
+   ============================================================ */
+.ffbpg-root {
+  --ffbpg-cyan:   #22e6ff;
+  --ffbpg-blue:   #3b82ff;
+  --ffbpg-purple: #a855f7;
+  --ffbpg-gold:   #f5c56b;
+  --ffbpg-ink:    #e9f3ff;
+  --ffbpg-mute:   #8aa1b8;
+  --ffbpg-ease:   cubic-bezier(0.22, 1, 0.36, 1);
+  --ffbpg-card-w: clamp(280px, 28vw, 420px);
+  --ffbpg-card-h: calc(var(--ffbpg-card-w) * 1.55);
+
+  position: relative;
+  width: 100%;
+  color: var(--ffbpg-ink);
+  background: transparent;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  contain: paint;
+}
+
+/* Hero frame — no sticky scroll behaviour. */
+.ffbpg-pin-wrap {
+  position: relative;
+  min-height: 100vh;
+}
+.ffbpg-mount {
+  min-height: 100vh;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+.ffbpg-root.ffbpg-is-ready .ffbpg-mount { opacity: 1; }
+.ffbpg-sticky {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+/* Header */
+.ffbpg-header {
+  position: absolute;
+  top: clamp(20px, 5vh, 56px);
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 5;
+  padding: 0 20px;
+  pointer-events: none;
+}
+.ffbpg-title {
+  margin: 0 0 10px;
+  font-size: clamp(24px, 3.4vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(180deg, #ffffff 0%, #b8dcff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 30px rgba(34, 230, 255, 0.08);
+}
+.ffbpg-sub {
+  margin: 0;
+  color: var(--ffbpg-mute);
+  font-size: clamp(13px, 1.1vw, 15px);
+  max-width: 560px;
+  line-height: 1.5;
+}
+
+/* Background webgl canvas */
+.ffbpg-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.85;
+  pointer-events: none;
+}
+.ffbpg-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%);
+}
+
+/* Particles */
+.ffbpg-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.ffbpg-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: var(--ffbpg-cyan);
+  box-shadow: 0 0 8px rgba(34, 230, 255, 0.7);
+  opacity: 0.35;
+  will-change: auto;
+  animation: ffbpg-float linear infinite;
+}
+@keyframes ffbpg-float {
+  0%   { transform: translate3d(0, 0, 0); opacity: 0; }
+  10%  { opacity: 0.4; }
+  90%  { opacity: 0.4; }
+  100% { transform: translate3d(var(--dx, 20px), -100vh, 0); opacity: 0; }
+}
+
+/* Stage — single seamless marquee row */
+.ffbpg-stage {
+  --ffbpg-marquee-gap: clamp(18px, 2vw, 34px);
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Raw image layer — no card shell or decorative treatment. */
+.ffbpg-marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: auto;
+  animation: ffbpg-marquee 34s linear infinite;
+}
+.ffbpg-marquee-group {
+  display: flex;
+  flex: 0 0 auto;
+  gap: var(--ffbpg-marquee-gap);
+  padding-right: var(--ffbpg-marquee-gap);
+}
+.ffbpg-marquee-item {
+  position: relative;
+  flex: 0 0 var(--ffbpg-card-w);
+  width: var(--ffbpg-card-w);
+  height: var(--ffbpg-card-h);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: auto;
+  animation: ffbpg-image-float 4.8s ease-in-out var(--ffbpg-float-delay, 0s) infinite;
+}
+.ffbpg-marquee-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+}
+.ffbpg-marquee-item img.ffbpg-image-loaded {
+  opacity: 1;
+}
+@keyframes ffbpg-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes ffbpg-image-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -7px, 0); }
+}
+
+/* Decorative background motion sleeps while scrolling; image transforms continue. */
+.ffbpg-root.ffbpg-is-scrolling .ffbpg-particle {
+  animation-play-state: paused;
+}
+.ffbpg-root:not(.ffbpg-is-running) .ffbpg-marquee-track,
+.ffbpg-root:not(.ffbpg-is-running) .ffbpg-marquee-item,
+.ffbpg-root:not(.ffbpg-is-running) .ffbpg-particle {
+  animation-play-state: paused !important;
+}
+.ffbpg-root:not(.ffbpg-is-running) .ffbpg-marquee-track,
+.ffbpg-root:not(.ffbpg-is-running) .ffbpg-marquee-item {
+  will-change: auto;
+}
+.ffbpg-root.ffbpg-is-running .ffbpg-marquee-track,
+.ffbpg-root.ffbpg-is-running .ffbpg-marquee-item {
+  will-change: transform;
+}
+.ffbpg-root.ffbpg-is-running .ffbpg-particle {
+  will-change: transform, opacity;
+}
+@media (hover: hover) {
+  .ffbpg-stage:hover .ffbpg-marquee-track {
+    animation-play-state: paused;
+  }
+}
+.ffbpg-root.ffbpg-is-visible:not(.ffbpg-is-scrolling) .ffbpg-particle {
+  will-change: transform, opacity;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .ffbpg-root { --ffbpg-card-w: 380px; }
+}
+@media (max-width: 640px) {
+  .ffbpg-root { --ffbpg-card-w: 98vw; }
+  .ffbpg-stage { --ffbpg-marquee-gap: 12px; }
+  .ffbpg-marquee-track { animation-duration: 28s; }
+  .ffbpg-header { top: 18px; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ffbpg-pin-wrap { min-height: auto; }
+  .ffbpg-sticky { position: relative; height: auto; padding: 60px 20px; }
+  .ffbpg-stage { position: relative; height: 70vh; }
+  .ffbpg-marquee-track,
+  .ffbpg-marquee-item,
+  .ffbpg-particle { animation: none !important; transition: none !important; }
+  .ffbpg-bg { display: none; }
+}
+</style>
+
+<script type="text/plain" data-ffbpg-legacy="">
+/* ============================================================
+   FF Bio Preview Gallery — logic
+   ============================================================ */
+// Legacy implementation retained below for editor history only. It is never started;
+// the active implementation is the lazy bootstrap after this script.
+const THREE = null;
+
+const galleryImages = [
+  "https://ffbiocodes.com/wp-content/uploads/2026/07/Asraful.webp",
+  "https://ffbiocodes.com/wp-content/uploads/2026/07/Saji.webp",
+  "https://ffbiocodes.com/wp-content/uploads/2026/07/San.webp",
+  "https://ffbiocodes.com/wp-content/uploads/2026/07/Ayan.webp",
+  "https://ffbiocodes.com/wp-content/uploads/2026/07/Raj-Boss.webp",
+  "https://ffbiocodes.com/wp-content/uploads/2026/07/Munna.webp"
+];
+
+// Accent color per active card (cyan, blue, purple, gold cycling)
+const ACCENTS = [];
+
+// Intentionally not called: the lazy bootstrap below owns initialization.
+
+function initGallery() {
+  const roots = document.querySelectorAll('.ffbpg-root');
+  roots.forEach(setupMarquee);
+}
+
+/* ---------- Infinite marquee ---------- */
+function setupMarquee(root) {
+  const stage = root.querySelector('.ffbpg-stage');
+  const bgCanvas = root.querySelector('.ffbpg-bg');
+  const particles = root.querySelector('.ffbpg-particles');
+  if (!stage || !bgCanvas || !particles) return;
+
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  buildMarquee(stage, galleryImages);
+  spawnParticles(particles, reduceMotion ? 0 : 18);
+  if (reduceMotion) return;
+
+  const bg = createBackground(bgCanvas);
+  const backgroundState = { activeIdx: 0 };
+  let rafId = 0;
+  let lastBackgroundFrame = 0;
+
+  function loop(now) {
+    rafId = requestAnimationFrame(loop);
+    if (now - lastBackgroundFrame >= 33) {
+      bg.render(backgroundState, now);
+      lastBackgroundFrame = now;
+    }
+  }
+
+  function start() {
+    if (rafId) return;
+    bg.resume();
+    lastBackgroundFrame = 0;
+    rafId = requestAnimationFrame(loop);
+  }
+
+  function stop() {
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = 0;
+    bg.pause();
+  }
+
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+    const inView = entries[0].isIntersecting;
+    root.classList.toggle('ffbpg-is-visible', inView);
+    if (inView) start(); else stop();
+  }, { rootMargin: '120px 0px' }) : null;
+
+  if (io) {
+    io.observe(root);
+  } else {
+    root.classList.add('ffbpg-is-visible');
+    start();
+  }
+}
+
+function buildMarquee(stage, images) {
+  const track = document.createElement('div');
+  track.className = 'ffbpg-marquee-track';
+  track.setAttribute('role', 'list');
+
+  for (let copy = 0; copy < 2; copy++) {
+    const group = document.createElement('div');
+    group.className = 'ffbpg-marquee-group';
+    if (copy) group.setAttribute('aria-hidden', 'true');
+
+    images.forEach((src, index) => {
+      const item = document.createElement('div');
+      item.className = 'ffbpg-marquee-item';
+      item.setAttribute('role', 'listitem');
+      item.style.setProperty('--ffbpg-float-delay', `${-(index * 0.55)}s`);
+
+      const image = document.createElement('img');
+      image.src = src;
+      image.alt = 'ffbiocode | Free Fire Bio Code';
+      image.loading = index < 3 ? 'eager' : 'lazy';
+      image.decoding = 'async';
+      item.appendChild(image);
+      group.appendChild(item);
+    });
+    track.appendChild(group);
+  }
+
+  stage.replaceChildren(track);
+}
+
+function setupOne(root) {
+  const stage      = root.querySelector('.ffbpg-stage');
+  const pinWrap    = root.querySelector('.ffbpg-pin-wrap');
+  const progressEl = root.querySelector('.ffbpg-progress-bar');
+  const counterCur = root.querySelector('.ffbpg-counter-cur');
+  const counterTot = root.querySelector('.ffbpg-counter-total');
+  const bgCanvas   = root.querySelector('.ffbpg-bg');
+  const particles  = root.querySelector('.ffbpg-particles');
+
+  if (!stage || !pinWrap || !progressEl || !counterCur || !counterTot || !bgCanvas || !particles) return;
+
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasFinePointer = matchMedia('(pointer: fine)').matches;
+
+  const cards = buildCards(stage, galleryImages);
+  counterTot.textContent = String(galleryImages.length);
+
+  spawnParticles(particles, reduceMotion ? 0 : 18);
+
+  const bg = reduceMotion ? null : createBackground(bgCanvas);
+
+  const state = {
+    progress: 0,         // Scroll target, 0..1 through the pin
+    smoothed: 0,
+    activeIdx: 0,
+    mouseX: 0, mouseY: 0,
+    smMouseX: 0, smMouseY: 0,
+    rectTop: 0, pinHeight: 0,
+    pointerRect: null,
+    inView: false,
+    isScrolling: false,
+    scrollDirty: true,
+    needsCardSync: true,
+    rafId: 0,
+    scrollEndTimer: 0,
+    lastFrame: 0,
+    lastBgFrame: 0,
+    lastPointerFrame: 0,
+    hudProgress: -1,
+    time: 0,
+  };
+
+  function measure() {
+    const r = pinWrap.getBoundingClientRect();
+    state.rectTop   = r.top + window.scrollY;
+    state.pinHeight = pinWrap.offsetHeight - window.innerHeight;
+    state.pointerRect = stage.getBoundingClientRect();
+  }
+
+  function computeProgress() {
+    const y = window.scrollY - state.rectTop;
+    return clamp(y / Math.max(1, state.pinHeight), 0, 1);
+  }
+
+  function setScrolling() {
+    if (!state.isScrolling) {
+      state.isScrolling = true;
+      root.classList.add('ffbpg-is-scrolling');
+      // The WebGL glow is decorative. Free its GPU time while the cards track input.
+      if (bg) bg.pause();
+    }
+
+    window.clearTimeout(state.scrollEndTimer);
+    state.scrollEndTimer = window.setTimeout(() => {
+      state.isScrolling = false;
+      root.classList.remove('ffbpg-is-scrolling');
+      if (bg) {
+        bg.resume();
+        state.lastBgFrame = 0;
+      }
+    }, 200);
+  }
+
+  function onScroll() {
+    // Read the cached pin measurements only. Following native scroll directly
+    // avoids a spring's input lag and prevents overshoot at high scroll speeds.
+    state.progress = computeProgress();
+    state.smoothed = state.progress;
+    state.scrollDirty = false;
+    if (state.inView) setScrolling();
+  }
+
+  function onResize() {
+    measure();
+    state.scrollDirty = true;
+  }
+
+  function onPointerMove(e) {
+    const now = performance.now();
+    if (!state.pointerRect || now - state.lastPointerFrame < 33) return;
+
+    state.lastPointerFrame = now;
+    const r = state.pointerRect;
+    state.mouseX = clamp(((e.clientX - r.left) / r.width) * 2 - 1, -1, 1);
+    state.mouseY = clamp(((e.clientY - r.top) / r.height) * 2 - 1, -1, 1);
+  }
+
+  function resetPointer() {
+    state.mouseX = 0;
+    state.mouseY = 0;
+  }
+
+  function startLoop() {
+    if (state.rafId) return;
+    state.lastFrame = performance.now();
+    state.lastBgFrame = 0;
+    state.needsCardSync = true;
+    if (bg) bg.resume();
+    state.rafId = requestAnimationFrame(loop);
+  }
+
+  function stopLoop() {
+    if (state.rafId) cancelAnimationFrame(state.rafId);
+    state.rafId = 0;
+    state.isScrolling = false;
+    window.clearTimeout(state.scrollEndTimer);
+    root.classList.remove('ffbpg-is-visible', 'ffbpg-is-scrolling');
+    cards.forEach(card => card.el.classList.remove('ffbpg-card--live'));
+    if (bg) bg.pause();
+  }
+
+  // Observer — pause work when off-screen
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+    const entry = entries[0];
+    state.inView = entry.isIntersecting;
+    root.classList.toggle('ffbpg-is-visible', state.inView);
+
+    if (reduceMotion) return;
+    if (state.inView) {
+      measure();
+      state.scrollDirty = true;
+      startLoop();
+    } else {
+      stopLoop();
+    }
+  }, { rootMargin: '120px 0px' }) : null;
+  if (io) io.observe(root);
+
+  measure();
+  state.progress = computeProgress();
+  state.smoothed = state.progress;
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onResize, { passive: true });
+  window.addEventListener('load', onResize, { once: true });
+
+  if (hasFinePointer) {
+    stage.addEventListener('pointermove', onPointerMove, { passive: true });
+    stage.addEventListener('pointerleave', resetPointer, { passive: true });
+  }
+
+  if (reduceMotion) {
+    // Static fallback: show first card active, others faded stack
+    cards.forEach((c, i) => {
+      c.el.classList.toggle('is-active', i === 0);
+      c.el.style.transform = `translate3d(${i*4}px, ${i*4}px, 0) scale(${1 - i*0.02})`;
+      c.el.style.opacity = i === 0 ? 1 : 0.35;
+      c.el.style.zIndex = cards.length - i;
+    });
+    return;
+  }
+
+  function loop(now) {
+    if (!state.inView) {
+      state.rafId = 0;
+      return;
+    }
+
+    state.rafId = requestAnimationFrame(loop);
+    const frameScale = Math.min(1.5, Math.max(0.5, (now - state.lastFrame) / 16.667));
+    state.lastFrame = now;
+
+    if (state.scrollDirty) {
+      state.progress = computeProgress();
+      state.smoothed = state.progress;
+      state.scrollDirty = false;
+    }
+
+    state.smMouseX = lerp(state.smMouseX, state.mouseX, 0.12);
+    state.smMouseY = lerp(state.smMouseY, state.mouseY, 0.12);
+    if (!state.isScrolling) state.time += 0.016 * frameScale;
+
+    updateStack(cards, state);
+    updateHud(state, cards, counterCur, progressEl);
+
+    if (bg && !state.isScrolling && now - state.lastBgFrame >= 33) {
+      bg.render(state, now);
+      state.lastBgFrame = now;
+    }
+  }
+
+  updateStack(cards, state);
+  updateHud(state, cards, counterCur, progressEl);
+
+  if (!io) {
+    state.inView = true;
+    root.classList.add('ffbpg-is-visible');
+    startLoop();
+  }
+}
+
+/* ---------- Card building ---------- */
+function buildCards(stage, images) {
+  const frag = document.createDocumentFragment();
+  const cards = images.map((src, i) => {
+    const el = document.createElement('article');
+    el.className = 'ffbpg-card';
+    el.setAttribute('role', 'listitem');
+    el.style.zIndex = String(images.length - i);
+    el.innerHTML = `
+      <div class="ffbpg-card-media">
+        <img src="${src}" alt="ffbiocode | Free Fire Bio Code" loading="${i < 2 ? 'eager' : 'lazy'}" decoding="async" />
+      </div>
+    `;
+    frag.appendChild(el);
+    return { el, img: null, index: i, phase: Math.random() * Math.PI * 2 };
+  });
+  stage.appendChild(frag);
+  cards.forEach(c => c.img = c.el.querySelector('img'));
+  return cards;
+}
+
+/* ---------- 3D stack transform per frame ---------- */
+function updateStackLegacy(cards, state) {
+  const n = cards.length;
+  const pos = state.smoothed * (n - 1);   // continuous card position
+  const active = Math.round(pos);
+  if (active !== state.activeIdx) state.activeIdx = active;
+
+  const tiltX = state.smMouseY * 4;   // deg
+  const tiltY = state.smMouseX * -6;  // deg
+
+  for (let i = 0; i < n; i++) {
+    const c = cards[i];
+    const rel = i - pos;                          // negative = behind (passed), positive = ahead (stacked)
+    const isActive = Math.round(pos) === i;
+
+    let tz, ty, tx, rx, ry, scale, opacity, blur, bright;
+
+    if (rel >= 0) {
+      // Ahead of / at focus — stacked behind, coming forward
+      const k = Math.min(rel, 4);                 // clamp visible depth
+      tz      = -k * 110;                         // deeper Z
+      ty      = k * 18;                           // slight offset down
+      tx      = 0;
+      rx      = -k * 2;
+      ry      = 0;
+      scale   = 1 - k * 0.05;
+      opacity = k > 3.2 ? 0 : 1 - k * 0.12;
+      blur    = k * 1.2;
+      bright  = 1 - k * 0.09;
+    } else {
+      // Passed — flies backward + tilts + fades
+      const k = Math.min(-rel, 2);
+      tz      = -k * 260 - 40;
+      ty      = -k * 40;
+      tx      = k * 20 * (i % 2 === 0 ? -1 : 1);
+      rx      = k * 12;
+      ry      = k * 4;
+      scale   = 1 - k * 0.14;
+      opacity = k > 1.2 ? 0 : 1 - k * 0.55;
+      blur    = k * 3;
+      bright  = 1 - k * 0.35;
+    }
+
+    // Breathing float
+    const floatY = Math.sin(state.time * 0.9 + c.phase) * 3;
+    const floatX = Math.cos(state.time * 0.7 + c.phase) * 2;
+
+    // Active card gets full mouse tilt; inactive halved
+    const mx = isActive ? tiltX : tiltX * 0.4;
+    const my = isActive ? tiltY : tiltY * 0.4;
+
+    c.el.style.transform = `
+      translate3d(${tx + floatX}px, ${ty + floatY}px, ${tz}px)
+      rotateX(${rx + mx}deg)
+      rotateY(${ry + my}deg)
+      scale(${scale})
+    `;
+    c.el.style.opacity = String(Math.max(0, opacity));
+    c.el.style.zIndex  = String(1000 - Math.round(Math.abs(rel) * 10) + (isActive ? 500 : 0));
+    c.el.classList.toggle('is-active', isActive);
+  }
+}
+
+function updateStack(cards, state) {
+  const total = cards.length;
+  const pos = state.smoothed * (total - 1);
+  const active = clamp(Math.round(pos), 0, total - 1);
+
+  // State and layer changes are discrete; only previous, active, and next cards update per frame.
+  if (active !== state.activeIdx || state.needsCardSync) {
+    state.activeIdx = active;
+    state.needsCardSync = false;
+
+    cards.forEach((card, index) => {
+      const distance = Math.abs(index - active);
+      const isActive = index === active;
+      card.el.classList.toggle('is-active', isActive);
+      card.el.classList.toggle('ffbpg-card--live', state.inView && distance <= 1);
+      card.el.style.zIndex = isActive ? '12' : String(Math.max(1, 8 - distance));
+
+      if (distance > 1) renderCard(card, index, pos, state, false);
+    });
+  }
+
+  const start = Math.max(0, active - 1);
+  const end = Math.min(total - 1, active + 1);
+  for (let index = start; index <= end; index++) {
+    renderCard(cards[index], index, pos, state, true);
+  }
+}
+
+function renderCard(card, index, pos, state, canFloat) {
+  const relative = index - pos;
+  const isActive = index === state.activeIdx;
+  const tiltX = state.smMouseY * (isActive ? 4 : 1.6);
+  const tiltY = state.smMouseX * (isActive ? -6 : -2.4);
+  let tx = 0;
+  let ty;
+  let tz;
+  let rx;
+  let ry;
+  let scale;
+  let opacity;
+
+  if (relative >= 0) {
+    const depth = Math.min(relative, 3.5);
+    tz = -depth * 65;
+    ty = depth * 15;
+    rx = -depth * 1.6;
+    ry = 0;
+    scale = 1 - depth * 0.042;
+    opacity = depth > 3 ? 0 : 1 - depth * 0.16;
+  } else {
+    const depth = Math.min(-relative, 1.8);
+    tz = -depth * 145 - 20;
+    ty = -depth * 32;
+    tx = depth * 15 * (index % 2 === 0 ? -1 : 1);
+    rx = depth * 8;
+    ry = depth * 2.5;
+    scale = 1 - depth * 0.1;
+    opacity = depth > 1.25 ? 0 : 1 - depth * 0.65;
+  }
+
+  // `time` freezes during scrolling, so retaining this offset pauses the card
+  // in place instead of snapping it to zero and resumes from the same phase.
+  const floatY = canFloat && isActive ? Math.sin(state.time * 0.9 + card.phase) * 3 : 0;
+  const floatX = canFloat && isActive ? Math.cos(state.time * 0.7 + card.phase) * 2 : 0;
+
+  card.el.style.transform = `translate3d(${tx + floatX}px, ${ty + floatY}px, ${tz}px) rotateX(${rx + tiltX}deg) rotateY(${ry + tiltY}deg) scale(${scale})`;
+  card.el.style.opacity = String(Math.max(0, opacity));
+}
+
+/* ---------- HUD ---------- */
+function updateHud(state, cards, counterCur, progressEl) {
+  const idx = Math.min(cards.length - 1, Math.max(0, state.activeIdx));
+  const label = String(idx + 1);
+  if (counterCur.textContent !== label) counterCur.textContent = label;
+  if (state.hudProgress !== state.smoothed) {
+    state.hudProgress = state.smoothed;
+    progressEl.style.transform = `scaleX(${state.smoothed.toFixed(4)})`;
+  }
+}
+
+/* ---------- Particles ---------- */
+function spawnParticles(container, count) {
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('span');
+    p.className = 'ffbpg-particle';
+    const size = Math.random() * 2 + 1;
+    p.style.width = p.style.height = size + 'px';
+    p.style.left  = (Math.random() * 100) + '%';
+    p.style.top   = (100 + Math.random() * 20) + '%';
+    p.style.setProperty('--dx', ((Math.random() - 0.5) * 60) + 'px');
+    p.style.animationDuration = (12 + Math.random() * 16) + 's';
+    p.style.animationDelay = (-Math.random() * 20) + 's';
+    p.style.opacity = String(0.15 + Math.random() * 0.35);
+    container.appendChild(p);
+  }
+}
+
+/* ---------- Three.js background: soft animated glow orbs ---------- */
+function createBackground(canvas) {
+  const renderer = new THREE.WebGLRenderer({
+    canvas, antialias: false, alpha: true, powerPreference: 'low-power'
+  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  const scene = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+  const uniforms = {
+    u_time:   { value: 0 },
+    u_res:    { value: new THREE.Vector2(1, 1) },
+    u_color1: { value: new THREE.Color('#22e6ff') },
+    u_color2: { value: new THREE.Color('#3b82ff') },
+    u_mix:    { value: 0 },
+  };
+
+  const material = new THREE.ShaderMaterial({
+    uniforms,
+    vertexShader: `void main(){ gl_Position = vec4(position, 1.0); }`,
+    fragmentShader: `
+      precision mediump float;
+      uniform float u_time;
+      uniform vec2  u_res;
+      uniform vec3  u_color1;
+      uniform vec3  u_color2;
+      uniform float u_mix;
+      void main() {
+        vec2 uv = gl_FragCoord.xy / u_res.xy;
+        vec2 p = uv - 0.5;
+        p.x *= u_res.x / u_res.y;
+
+        float t = u_time * 0.15;
+        vec2 c1 = vec2(sin(t)*0.35, cos(t*0.8)*0.25);
+        vec2 c2 = vec2(cos(t*0.7)*0.4, sin(t*0.6)*0.3);
+
+        float d1 = length(p - c1);
+        float d2 = length(p - c2);
+
+        vec3 col = vec3(0.0);
+        col += u_color1 * smoothstep(0.65, 0.0, d1) * 0.55;
+        col += u_color2 * smoothstep(0.7, 0.0, d2) * 0.45;
+
+        // Subtle vertical falloff
+        col *= smoothstep(1.1, 0.2, length(p) * 1.2);
+
+        // Very subtle base tint
+        col += vec3(0.01, 0.02, 0.04);
+
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `
+  });
+
+  const geo  = new THREE.PlaneGeometry(2, 2);
+  const mesh = new THREE.Mesh(geo, material);
+  scene.add(mesh);
+
+  let paused = false;
+  let lastRenderAt = 0;
+  let curColor1 = ACCENTS[0].clone();
+  let curColor2 = ACCENTS[1].clone();
+
+  function resize() {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    renderer.setSize(w, h, false);
+    uniforms.u_res.value.set(w, h);
+  }
+  const ro = new ResizeObserver(resize); ro.observe(canvas);
+  resize();
+
+  function render(state, now) {
+    if (paused) return;
+    const frameScale = lastRenderAt ? Math.min(2, (now - lastRenderAt) / 16.667) : 1;
+    lastRenderAt = now;
+    uniforms.u_time.value += 0.016 * frameScale;
+
+    // Smooth color transition based on active index
+    const a = ACCENTS[state.activeIdx % ACCENTS.length];
+    const b = ACCENTS[(state.activeIdx + 1) % ACCENTS.length];
+    curColor1.lerp(a, 0.03 * frameScale);
+    curColor2.lerp(b, 0.03 * frameScale);
+    uniforms.u_color1.value.copy(curColor1);
+    uniforms.u_color2.value.copy(curColor2);
+
+    renderer.render(scene, camera);
+  }
+
+  return {
+    render,
+    pause()  { paused = true;  },
+    resume() { paused = false; lastRenderAt = 0; },
+  };
+}
+
+/* ---------- utils ---------- */
+function lerp(a, b, t) { return a + (b - a) * t; }
+function clamp(v, min, max) { return v < min ? min : v > max ? max : v; }
+</script>
+<script type="module">
+/* Lazy gallery bootstrap. This is the only code that runs at page load. */
+const GALLERY_IMAGES = [
+  'https://ffbiocodes.com/wp-content/uploads/2026/07/Asraful.webp',
+  'https://ffbiocodes.com/wp-content/uploads/2026/07/Saji.webp',
+  'https://ffbiocodes.com/wp-content/uploads/2026/07/San.webp',
+  'https://ffbiocodes.com/wp-content/uploads/2026/07/Ayan.webp',
+  'https://ffbiocodes.com/wp-content/uploads/2026/07/Raj-Boss.webp',
+  'https://ffbiocodes.com/wp-content/uploads/2026/07/Munna.webp'
+];
+
+document.querySelectorAll('.ffbpg-root').forEach((root) => {
+  const state = { active: false, built: false, loading: false, three: null, bg: null, raf: 0, revealRaf: 0, lastFrame: 0 };
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const onIntersection = (entries) => {
+    const entry = entries[0];
+    const visible = entry.isIntersecting && entry.intersectionRatio >= 0.18;
+    state.active = visible;
+    if (visible) ensureBuilt(); else pause();
+  };
+  const observer = 'IntersectionObserver' in window
+    ? new IntersectionObserver(onIntersection, { threshold: [0, 0.18] })
+    : null;
+
+  function ensureBuilt() {
+    if (state.built) return resume();
+    if (state.loading) return;
+    state.loading = true;
+
+    // Fetch and evaluate Three.js only after at least 18% of this section is visible.
+    const loadThree = reducedMotion ? Promise.resolve(null) : import('https://unpkg.com/three@0.160.0/build/three.module.js');
+    loadThree.catch(() => null).then((THREE) => {
+      state.loading = false;
+      state.three = THREE;
+      // The user may have scrolled away while the module was downloading.
+      if (!state.active) return;
+      build(THREE);
+      resume();
+    });
+  }
+
+  function build(THREE) {
+    if (state.built) return;
+    const mount = root.querySelector('.ffbpg-mount');
+    if (!mount) return;
+    mount.innerHTML = `
+      <div class="ffbpg-sticky">
+        <header class="ffbpg-header"><h2 class="ffbpg-title">Preview</h2></header>
+        <canvas class="ffbpg-bg" aria-hidden="true"></canvas>
+        <div class="ffbpg-vignette" aria-hidden="true"></div>
+        <div class="ffbpg-particles" aria-hidden="true"></div>
+        <div class="ffbpg-stage" role="region" aria-label="Free Fire profile previews"></div>
+      </div>`;
+    const stage = mount.querySelector('.ffbpg-stage');
+    buildMarquee(stage);
+    if (!reducedMotion) {
+      spawnParticles(mount.querySelector('.ffbpg-particles'), 18);
+      if (THREE) state.bg = createBackground(mount.querySelector('.ffbpg-bg'), THREE);
+    }
+    state.built = true;
+
+    // Paint a complete static frame before revealing it, preventing a flash of empty content.
+    if (state.bg) {
+      state.bg.resume();
+      state.bg.render(performance.now());
+      state.bg.pause();
+    }
+    state.revealRaf = requestAnimationFrame(() => {
+      state.revealRaf = 0;
+      if (state.active && !document.hidden) root.classList.add('ffbpg-is-ready');
+    });
+  }
+
+  function resume() {
+    if (document.hidden || !state.active || !state.built) return;
+    root.classList.add('ffbpg-is-visible', 'ffbpg-is-running');
+    if (state.bg) state.bg.resume();
+    if (!reducedMotion && state.bg && !state.raf) {
+      state.lastFrame = 0;
+      state.raf = requestAnimationFrame(frame);
+    }
+  }
+
+  function pause() {
+    root.classList.remove('ffbpg-is-visible', 'ffbpg-is-running');
+    if (state.revealRaf) cancelAnimationFrame(state.revealRaf);
+    state.revealRaf = 0;
+    if (state.raf) cancelAnimationFrame(state.raf);
+    state.raf = 0;
+    if (state.bg) state.bg.pause();
+  }
+
+  function frame(now) {
+    if (!state.active) return (state.raf = 0);
+    state.raf = requestAnimationFrame(frame);
+    // Render at 30fps while visible; CSS handles the marquee independently.
+    if (!state.lastFrame || now - state.lastFrame >= 33) {
+      state.bg?.render(now);
+      state.lastFrame = now;
+    }
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) pause(); else if (state.active) resume();
+  }, { passive: true });
+  if (observer) observer.observe(root);
+  else {
+    state.active = true;
+    ensureBuilt();
+  }
+});
+
+function buildMarquee(stage) {
+  const track = document.createElement('div');
+  track.className = 'ffbpg-marquee-track';
+  track.setAttribute('role', 'list');
+  for (let copy = 0; copy < 2; copy++) {
+    const group = document.createElement('div');
+    group.className = 'ffbpg-marquee-group';
+    if (copy) group.setAttribute('aria-hidden', 'true');
+    GALLERY_IMAGES.forEach((src, index) => {
+      const item = document.createElement('div');
+      item.className = 'ffbpg-marquee-item';
+      item.setAttribute('role', 'listitem');
+      item.style.setProperty('--ffbpg-float-delay', `${-(index * 0.55)}s`);
+      const image = new Image();
+      image.alt = 'ffbiocode | Free Fire Bio Code';
+      image.loading = 'eager';
+      image.decoding = 'async';
+      image.addEventListener('load', () => image.classList.add('ffbpg-image-loaded'), { once: true });
+      image.src = src;
+      if (image.complete) image.classList.add('ffbpg-image-loaded');
+      item.appendChild(image);
+      group.appendChild(item);
+    });
+    track.appendChild(group);
+  }
+  stage.replaceChildren(track);
+}
+
+function spawnParticles(container, count) {
+  for (let i = 0; i < count; i++) {
+    const particle = document.createElement('span');
+    particle.className = 'ffbpg-particle';
+    const size = Math.random() * 2 + 1;
+    particle.style.cssText = `width:${size}px;height:${size}px;left:${Math.random() * 100}%;top:${100 + Math.random() * 20}%;--dx:${(Math.random() - .5) * 60}px;animation-duration:${12 + Math.random() * 16}s;animation-delay:${-Math.random() * 20}s;opacity:${.15 + Math.random() * .35}`;
+    container.appendChild(particle);
+  }
+}
+
+function createBackground(canvas, THREE) {
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: 'low-power' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+  const scene = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  const uniforms = {
+    time: { value: 0 }, resolution: { value: new THREE.Vector2(1, 1) },
+    color1: { value: new THREE.Color('#22e6ff') }, color2: { value: new THREE.Color('#3b82ff') }
+  };
+  const material = new THREE.ShaderMaterial({ uniforms,
+    vertexShader: 'void main(){gl_Position=vec4(position,1.0);}',
+    fragmentShader: 'precision mediump float;uniform float time;uniform vec2 resolution;uniform vec3 color1;uniform vec3 color2;void main(){vec2 p=gl_FragCoord.xy/resolution-.5;p.x*=resolution.x/resolution.y;float t=time*.15;float a=length(p-vec2(sin(t)*.35,cos(t*.8)*.25));float b=length(p-vec2(cos(t*.7)*.4,sin(t*.6)*.3));vec3 c=color1*smoothstep(.65,0.,a)*.55+color2*smoothstep(.7,0.,b)*.45;c*=smoothstep(1.1,.2,length(p)*1.2);gl_FragColor=vec4(c+vec3(.01,.02,.04),1.);}'
+  });
+  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
+  let paused = true, lastRender = 0;
+  const resize = () => {
+    const width = canvas.clientWidth, height = canvas.clientHeight;
+    if (!width || !height) return;
+    renderer.setSize(width, height, false);
+    uniforms.resolution.value.set(width, height);
+  };
+  const resizeObserver = new ResizeObserver(resize);
+  resize();
+  return {
+    render(now) {
+      if (paused) return;
+      uniforms.time.value += lastRender ? Math.min(.05, (now - lastRender) / 1000) : 0;
+      lastRender = now;
+      renderer.render(scene, camera);
+    },
+    resume() { paused = false; lastRender = 0; resizeObserver.observe(canvas); resize(); },
+    pause() { paused = true; resizeObserver.disconnect(); }
+  };
+}
+</script>
