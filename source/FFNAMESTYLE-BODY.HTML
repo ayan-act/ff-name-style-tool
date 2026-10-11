@@ -1,0 +1,398 @@
+<!-- Supporting content for /ff-name-style/. Place below the existing generator.
+     Scoped styles; no second H1, page metadata or ads. Includes FAQ schema. -->
+<style>
+  #ffns-guide { --fg-bg:#101116; --fg-panel:#191b23; --fg-border:#303440; --fg-text:#f3f1ed; --fg-muted:#b0b4c4; --fg-accent:#ffc09a; color:var(--fg-text); background:var(--fg-bg); font:16px/1.8 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; padding:64px 24px; color-scheme:dark; }
+  #ffns-guide *, #ffns-guide *::before, #ffns-guide *::after { box-sizing:border-box; }
+  #ffns-guide .fg-shell { max-width:1100px; margin-inline:auto; }
+  #ffns-guide h2, #ffns-guide h3, #ffns-guide p { margin:0; color:inherit; }
+  #ffns-guide h2 { font-size:clamp(24px,3vw,34px); line-height:1.25; letter-spacing:-.025em; font-weight:750; }
+  #ffns-guide h3 { font-size:18px; line-height:1.4; font-weight:700; }
+  #ffns-guide p { margin-top:16px; }
+  #ffns-guide a { color:var(--fg-accent); text-underline-offset:4px; }
+  #ffns-guide a:hover { color:#ffe2d0; }
+  #ffns-guide a:focus-visible { outline:2px solid var(--fg-accent); outline-offset:4px; border-radius:4px; }
+  #ffns-guide strong { color:var(--fg-text); font-weight:700; }
+  #ffns-guide .fg-kicker { margin:0 0 16px; font-size:11px; font-weight:750; letter-spacing:.16em; text-transform:uppercase; color:var(--fg-accent); }
+  #ffns-guide .fg-header { padding:32px; border:1px solid var(--fg-border); border-radius:20px; background:radial-gradient(ellipse at top right,#38252b,transparent 65%),var(--fg-panel); }
+  #ffns-guide .fg-header h2 { max-width:820px; font-size:clamp(30px,4vw,44px); }
+  #ffns-guide .fg-lead { max-width:780px; color:var(--fg-muted); font-size:17px; }
+  #ffns-guide .fg-stats { display:flex; flex-wrap:wrap; gap:12px; margin:26px 0 0; padding:0; list-style:none; }
+  #ffns-guide .fg-stats li { padding:8px 13px; border:1px solid #55403a; border-radius:8px; color:var(--fg-accent); font-size:13px; background:#211d22; }
+  #ffns-guide .fg-layout { display:grid; grid-template-columns:220px minmax(0,1fr); gap:40px; margin-top:40px; align-items:start; }
+  #ffns-guide .fg-nav { padding:20px; border:1px solid var(--fg-border); border-radius:14px; background:var(--fg-panel); }
+  #ffns-guide .fg-nav p { margin:0 0 12px; font-size:12px; font-weight:750; letter-spacing:.1em; text-transform:uppercase; color:var(--fg-muted); }
+  #ffns-guide .fg-nav ol { margin:0; padding:0; list-style:none; }
+  #ffns-guide .fg-nav a { display:block; padding:8px 0; font-size:13px; line-height:1.6; text-decoration:none; }
+  #ffns-guide .fg-content { min-width:0; }
+  #ffns-guide .fg-section { padding-bottom:36px; margin-bottom:36px; border-bottom:1px solid var(--fg-border); scroll-margin-top:24px; }
+  #ffns-guide .fg-lazy-section { content-visibility:auto; contain-intrinsic-size:auto 900px; }
+  #ffns-guide .fg-section > p, #ffns-guide .fg-card p, #ffns-guide .fg-step p { color:var(--fg-muted); }
+  #ffns-guide .fg-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:24px; }
+  #ffns-guide .fg-card { padding:22px; border:1px solid var(--fg-border); border-radius:14px; background:var(--fg-panel); min-width:0; }
+  #ffns-guide .fg-card p { margin-top:10px; font-size:14px; }
+  #ffns-guide .fg-tag { display:block; color:var(--fg-accent); font-size:11px; letter-spacing:.1em; font-weight:700; margin-bottom:10px; text-transform:uppercase; }
+  #ffns-guide .fg-steps { list-style:none; padding:0; margin:24px 0 0; counter-reset:fg-step; }
+  #ffns-guide .fg-step { position:relative; padding:0 0 25px 54px; counter-increment:fg-step; }
+  #ffns-guide .fg-step::before { content:counter(fg-step,decimal-leading-zero); position:absolute; left:0; top:0; color:var(--fg-accent); background:#30262a; width:36px; height:36px; display:grid; place-items:center; border-radius:10px; font-size:12px; font-weight:700; }
+  #ffns-guide .fg-step p { margin-top:7px; }
+  #ffns-guide .fg-callout { margin-top:22px; padding:18px 20px; border-left:3px solid var(--fg-accent); background:#211e26; border-radius:0 10px 10px 0; font-size:14px; }
+  #ffns-guide .fg-callout p { margin:0; }
+  #ffns-guide .fg-samples { list-style:none; padding:0; margin:18px 0 0; display:flex; flex-wrap:wrap; gap:10px; }
+  #ffns-guide .fg-samples li { background:#11131a; border:1px solid var(--fg-border); border-radius:8px; padding:9px 12px; font:18px/1.6 "Segoe UI Symbol",system-ui,sans-serif; overflow-wrap:anywhere; max-width:100%; }
+  #ffns-guide .fg-list { padding-left:22px; margin:18px 0 0; color:var(--fg-muted); }
+  #ffns-guide .fg-list li { margin-top:10px; padding-left:3px; }
+  #ffns-guide .fg-list li::marker { color:var(--fg-accent); }
+  #ffns-guide .fg-caption { font-size:13px; color:var(--fg-muted); }
+  #ffns-guide .fg-cta { padding:28px; background:linear-gradient(120deg,#30232b,#191b23); border:1px solid #55403a; border-radius:16px; }
+  #ffns-guide .fg-cta p { color:var(--fg-muted); }
+  #ffns-guide .fg-button { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:11px 20px; margin-top:22px; border-radius:10px; background:var(--fg-accent); color:#291b15; text-decoration:none; font-size:14px; font-weight:750; text-align:center; }
+  #ffns-guide .fg-button:hover { background:#ffdac2; color:#291b15; }
+  #ffns-guide .fg-footer { margin-top:30px; font-size:12px; color:var(--fg-muted); }
+  /* FAQ: progressive enhancement keeps answers readable without JavaScript. */
+  #ffns-guide .fg-accordion { display:grid; gap:16px; margin-top:24px; }
+  #ffns-guide .fg-faq-item { background:var(--fg-panel); border:1px solid var(--fg-border); border-radius:14px; overflow:hidden; }
+  #ffns-guide .fg-faq-item.fg-open { border-color:#685044; }
+  #ffns-guide .fg-faq-trigger { display:flex; align-items:center; justify-content:space-between; gap:16px; width:100%; min-height:48px; padding:18px 20px; border:0; border-radius:0; background:transparent; color:var(--fg-text); font:inherit; font-size:16px; font-weight:700; line-height:1.5; text-align:left; text-transform:none; letter-spacing:normal; box-shadow:none; cursor:pointer; }
+  #ffns-guide .fg-faq-trigger:hover { background:#24232b; color:var(--fg-accent); }
+  #ffns-guide .fg-faq-trigger:focus-visible { outline:2px solid var(--fg-accent); outline-offset:-4px; }
+  #ffns-guide .fg-faq-icon { position:relative; flex:0 0 20px; height:20px; }
+  #ffns-guide .fg-faq-icon::before, #ffns-guide .fg-faq-icon::after { content:""; position:absolute; left:50%; top:50%; background:var(--fg-accent); transform:translate(-50%,-50%); transition:transform .3s ease,opacity .3s ease; }
+  #ffns-guide .fg-faq-icon::before { width:14px; height:2px; }
+  #ffns-guide .fg-faq-icon::after { width:2px; height:14px; }
+  #ffns-guide .fg-faq-trigger[aria-expanded="true"] .fg-faq-icon::after { transform:translate(-50%,-50%) rotate(90deg); opacity:0; }
+  #ffns-guide .fg-faq-wrap { display:grid; grid-template-rows:1fr; }
+  #ffns-guide .fg-faq-ready .fg-faq-wrap { grid-template-rows:0fr; visibility:hidden; transition:grid-template-rows .35s ease,visibility 0s .35s; }
+  #ffns-guide .fg-faq-ready .fg-open .fg-faq-wrap { grid-template-rows:1fr; visibility:visible; transition-delay:0s; }
+  #ffns-guide .fg-faq-inner { min-height:0; overflow:hidden; }
+  #ffns-guide .fg-faq-answer { margin:0; padding:0 20px 18px; font-size:15px; color:var(--fg-muted); }
+  @media (prefers-reduced-motion:reduce) { #ffns-guide .fg-faq-wrap, #ffns-guide .fg-faq-icon::before, #ffns-guide .fg-faq-icon::after { transition:none; } }
+  @media print { #ffns-guide .fg-faq-ready .fg-faq-wrap { grid-template-rows:1fr; visibility:visible; } }
+  /* Defer off-screen layout and painting while keeping the article in the HTML.
+     The estimated height reserves scroll space; auto remembers the rendered height. */
+  @supports (content-visibility:auto) {
+    #ffns-guide { content-visibility:auto; contain-intrinsic-block-size:auto 6000px; }
+    @media (max-width:560px) { #ffns-guide { contain-intrinsic-block-size:auto 9000px; } }
+  }
+  @media print { #ffns-guide { content-visibility:visible; contain-intrinsic-block-size:none; } }
+  @media (max-width:800px) { #ffns-guide .fg-layout { grid-template-columns:1fr; gap:30px; } #ffns-guide .fg-nav ol { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:20px; } }
+  @media (max-width:560px) { #ffns-guide { padding:40px 16px; font-size:15px; } #ffns-guide .fg-header { padding:24px 20px; } #ffns-guide .fg-lead { font-size:15px; } #ffns-guide .fg-grid { grid-template-columns:1fr; } #ffns-guide .fg-card { padding:20px; } #ffns-guide .fg-step { padding-left:48px; } #ffns-guide .fg-cta { padding:24px 20px; } #ffns-guide .fg-button { width:100%; } }
+  @media (forced-colors:active) { #ffns-guide .fg-button { border:1px solid ButtonText; } }
+</style>
+
+<article id="ffns-guide" lang="en" aria-labelledby="fg-title">
+  <div class="fg-shell">
+    <header class="fg-header">
+      <p class="fg-kicker">The FF Name Style guide / By 6ixus FF</p>
+      <h2 id="fg-title">FF Name Style: make a nickname that feels like you</h2>
+      <p class="fg-lead">A memorable name starts with a word you like. The <strong>FF Name Style</strong> tool turns that word into stylish text, then lets you add symbols and frames before copying it. Use this guide to choose a look, build your nickname and check it before using it in Free Fire.</p>
+      <ul class="fg-stats" aria-label="Tool highlights"><li>32 text styles</li><li>2 creative tools</li><li>Custom symbols &amp; frames</li><li>Free to use</li></ul>
+    </header>
+
+    <div class="fg-layout">
+      <nav class="fg-nav" aria-label="Nickname guide contents">
+        <p>In this guide</p>
+        <ol>
+          <li><a href="#fg-about">01 / What the tool does</a></li>
+          <li><a href="#fg-use">02 / How to use it</a></li>
+          <li><a href="#fg-fonts">03 / Find your font style</a></li>
+          <li><a href="#fg-ideas">04 / Girl &amp; anime ideas</a></li>
+          <li><a href="#fg-features">05 / Explore the features</a></li>
+          <li><a href="#fg-where">06 / Where to use names</a></li>
+          <li><a href="#fg-check">07 / Before you paste</a></li>
+          <li><a href="#fg-why">08 / Choose your best style</a></li>
+          <li><a href="#fg-faq">09 / Frequently asked questions</a></li>
+        </ol>
+      </nav>
+
+      <div class="fg-content">
+        <section class="fg-section" id="fg-about" aria-labelledby="fg-about-title">
+          <h2 id="fg-about-title">What is an FF name style?</h2>
+          <p>An <strong>ff name style</strong> is a nickname written with a distinctive combination of letters, symbols and decoration. You might keep your usual name in small caps, choose a bold alphabet or add a simple frame such as <span aria-label="opening and closing corner brackets">༺༻</span>. The aim is to make your profile recognisable while keeping the name easy to read.</p>
+          <p>This browser tool has two parts. <strong>Cool Text Generator</strong> converts your input into 32 styles. <strong>Custom Nickname Builder</strong> lets you edit a name, insert characters at your cursor and apply a finishing format. You can copy a ready-made result immediately or use it as the starting point for something more personal.</p>
+          <div class="fg-callout"><p><strong>Stylish text, not a font installation.</strong> The generator uses Unicode characters. It does not install a font or change the game’s interface. The same copied text can look different on another device, and some characters may not be accepted by the destination app. Read our <a href="https://ffbiocodes.com/free-fire-name-fonts-explained/">Free Fire name fonts and Unicode explainer</a> for a closer look at why.</p></div>
+        </section>
+
+        <section class="fg-section fg-lazy-section" id="fg-use" aria-labelledby="fg-use-title">
+          <h2 id="fg-use-title">How to create your Free Fire name style</h2>
+          <p>Start with a short name you would be happy to use without decoration. Then build up the design one choice at a time.</p>
+          <ol class="fg-steps">
+            <li class="fg-step"><h3>Enter your base name</h3><p>Open Cool Text Generator and replace the sample text with your name, alias or team tag. Results update as you type. Its 40-character limit is only for entering text and trying name styles in this tool; it is not the Free Fire nickname limit.</p></li>
+            <li class="fg-step"><h3>Compare the styles</h3><p>Browse All styles or narrow the results with Clean, Bold, Fancy and Decorated. Use the style search to find labels such as Gothic, Small Caps or Monospace. Select Show more styles to see additional results.</p></li>
+            <li class="fg-step"><h3>Copy a result or customise it</h3><p>The Copy button on a result card copies that styled version. Choose Customize to send the result to the builder. The Copy button beside the original input copies only the text in that input, so use the card button when you want a converted style.</p></li>
+            <li class="fg-step"><h3>Add your finishing touches</h3><p>In Custom Nickname Builder, place the cursor where you want a symbol and select a character. Its 120-character limit gives you room to input and edit a draft nickname; it does not increase the game’s name limit. Explore the collections, choose a format or enter your own Left symbol and Right symbol, then select Apply frame. Use Remove frame to remove a frame the tool is still tracking.</p></li>
+            <li class="fg-step"><h3>Paste and check the final name</h3><p>Copy the finished nickname and paste it into the game’s name-entry field. Check its appearance, accepted length and availability before confirming. Follow the current in-game instructions and any displayed name-change requirements.</p></li>
+          </ol>
+          <div class="fg-callout">
+            <p><strong>Tool editing limits and your final Free Fire name</strong></p>
+            <ul class="fg-list">
+              <li><strong>Cool Text Generator: 40 characters</strong> for text input and experimenting with styles.</li>
+              <li><strong>Custom Nickname Builder: 120 characters</strong> for entering and editing your nickname design.</li>
+              <li><strong>Final Free Fire nickname: keep it within 12 characters.</strong> Allow room for symbols, frames and spaces in the finished name.</li>
+            </ul>
+            <p>The 40- and 120-character allowances are only tool workspace limits, not in-game name allowances. Shorten your final design before copying it into Free Fire, and check the game’s name-entry validation: it may count Unicode characters differently from this tool.</p>
+          </div>
+        </section>
+
+        <section class="fg-section fg-lazy-section" id="fg-fonts" aria-labelledby="fg-fonts-title">
+          <h2 id="fg-fonts-title">Choose an FF name style font that stays readable</h2>
+          <p>When you search for an <strong>ff name style font</strong>, you are usually looking for text you can copy and paste. This tool offers several directions, from restrained lettering to decorated signatures. Most alphabet conversions target English A–Z letters; letters from other scripts may remain unchanged.</p>
+          <div class="fg-grid">
+            <div class="fg-card"><span class="fg-tag">Clean / 8 styles</span><h3>Simple and recognisable</h3><p>Small Caps, Wide Letters, Classic Italic, Monospace, Modern Sans, Modern Italic, Spaced Out and Spaced Small Caps suit names where readability comes first.</p></div>
+            <div class="fg-card"><span class="fg-tag">Bold / 8 styles</span><h3>A stronger visual presence</h3><p>Classic Bold, Bold Italic, Bold Script, Bold Gothic, Modern Bold, Modern Bold Italic, Filled Squares and Filled Circles give short names more weight.</p></div>
+            <div class="fg-card"><span class="fg-tag">Fancy / 6 styles</span><h3>A distinctive alphabet</h3><p>Gothic, Signature Script, Double Struck, Circle Letters, Square Letters and Tiny Letters offer more expressive shapes. Compare them on your own name before choosing.</p></div>
+            <div class="fg-card"><span class="fg-tag">Decorated / 10 styles</span><h3>Ready-made finishing details</h3><p>Underlined, Strikethrough, Royal Frame, Clan Tag, Star Player, Elite Signature, Crowned, Starlight, Winged and Minimal Frame add marks or framing to the text.</p></div>
+          </div>
+          <p>A good <strong>free fire font style</strong> should still be recognisable in a small profile label. If the letters become difficult to distinguish, try Small Caps or Monospace and keep just one decorative element.</p>
+        </section>
+
+        <section class="fg-section fg-lazy-section" id="fg-ideas" aria-labelledby="fg-ideas-title">
+          <h2 id="fg-ideas-title">Nickname ideas: soft, bold or anime-inspired</h2>
+          <p>Use these examples as starting points, then replace the base word with your own alias. They are illustrative ideas, not a list of available or game-tested names. The tool does not have separate Girl or Anime filters; you create these looks with its existing fonts, symbols and frames.</p>
+          <div class="fg-grid">
+            <div class="fg-card"><span class="fg-tag">FF name style girl</span><h3>Flowers, stars and simple signatures</h3><p>For an <strong>ff name style girl</strong> look, try a short alias such as 6ixus with a flower or a heart. Small Caps keeps the result compact, while Signature Script gives it a handwritten feel. These styles are open to anyone who likes the look.</p><ul class="fg-samples" aria-label="Girl-inspired nickname examples"><li>—͟͞͞ㅤ6ɪxᴜꜱㅤ♨</li><li>—͟͞͞★ㅤ6ɪxᴜꜱㅤ♨</li><li>—͟͞͞★6ɪ፝֟xᴜꜱㅤ⸙</li></ul></div>
+            <div class="fg-card"><span class="fg-tag">FF name style anime</span><h3>A character-inspired mood</h3><p>For an <strong>ff name style anime</strong> idea, start with your own alias or a short word such as 6ixus. Pair it with a star or a minimal frame. A few well-chosen details often look clearer than a long string of symbols.</p><ul class="fg-samples" aria-label="Anime-inspired nickname examples"><li>6ɪxᴜꜱㅤ✿ㅤツ</li><li>ᴮᴼˢˢ°6ɪxᴜꜱㅤⓋ</li><li>ᴹˣ┊6ɪ፝֟xᴜꜱㅤあ</li></ul></div>
+          </div>
+          <p>For a team-based <strong>ff nickname style</strong>, agree on a shared prefix and let each player keep a different base name. For a minimal profile, use the same alphabet without a frame. Matching the structure matters more than filling every available space.</p>
+        </section>
+
+        <section class="fg-section fg-lazy-section" id="fg-features" aria-labelledby="fg-features-title">
+          <h2 id="fg-features-title">Features that make custom names easier to build</h2>
+          <div class="fg-grid">
+            <div class="fg-card"><h3>Save favourite styles</h3><p>Bookmark a result and find its style under Saved. The tool stores your style choices in this browser when storage is available. It saves the style, not a permanent collection of finished nicknames; changing the input updates the preview.</p></div>
+            <div class="fg-card"><h3>Explore character collections</h3><p>Gaming, Letters, Numbers, Symbols, Emojis and All characters organise the library. The collection selector offers quick picks, alphabet styles and themed collections. Show more characters reveals additional choices.</p></div>
+            <div class="fg-card"><h3>Insert at the cursor</h3><p>Add a symbol exactly where you need it. If you select part of the nickname first, the inserted character replaces that selection. This is useful for changing one detail without rebuilding the whole name.</p></div>
+            <div class="fg-card"><h3>Search and filter formats</h3><p>Browse Gaming, Royal, Minimal and Fancy formats, search the format library or load more choices. Format previews use your current name. Preset formats generally convert the base name to small caps as part of their design.</p></div>
+            <div class="fg-card"><h3>Create your own frame</h3><p>Enter a left and right symbol to surround your name with a custom pair. This is useful when you want to keep a chosen alphabet and add a simpler border. You can also edit the nickname directly.</p></div>
+            <div class="fg-card"><h3>Shuffle a new direction</h3><p>Shuffle my style chooses another nickname format using the base name from the first tab. It is a quick way to explore combinations; copy any finished result you want to keep before replacing it.</p></div>
+          </div>
+          <p>The generator works in the browser without a font download or a tool account. You do not need to enter your Free Fire password or connect a game account to create text. The tool itself is free; any in-game name-change cost is separate.</p>
+        </section>
+
+        <section class="fg-section fg-lazy-section" id="fg-where" aria-labelledby="fg-where-title">
+          <h2 id="fg-where-title">Where you can use your styled nickname</h2>
+          <p>The main purpose is to prepare a <strong>free fire nickname style</strong> for the game’s name field. You can also try the copied text in other places that accept Unicode, such as a social display name, a gaming community profile or a team introduction. Each service has its own naming rules.</p>
+          <ul class="fg-list">
+            <li><strong>Player names:</strong> preview the result in-game to check whether its letters, symbols and spacing are accepted.</li>
+            <li><strong>Squad identities:</strong> use a consistent tag or frame so names share a recognisable structure.</li>
+            <li><strong>Social display names:</strong> test the text in a display-name field; a username or account handle may have stricter rules.</li>
+            <li><strong>Profile introductions:</strong> use a short styled alias alongside ordinary text so other people can read and search for your name.</li>
+          </ul>
+          <p>A nickname and a bio are different parts of a profile. For profile bio formatting, explore the <a href="https://ffbiocodes.com/">Free Fire Bio Code tool</a> and our <a href="https://ffbiocodes.com/how-to-create-a-stylish-free-fire-bio-in-2026/">step-by-step stylish bio guide</a>. You can try a single initial from the <a href="https://ffbiocodes.com/free-fire-alphabet-style-bio-code/">A–Z alphabet bio codes</a>, or read the <a href="https://ffbiocodes.com/free-fire-long-bio-stylish-unique-long-bio-codes/">long-bio guide</a> before adapting a longer idea. Those designs are for the bio field: styling a name here does not apply a <a href="https://ffbiocodes.com/free-fire-colour-code-list-2026/">colour code</a> or change the colour of your in-game name.</p>
+          <p>If you use the same player identity beyond your profile, choose a format that fits what you do. Check our <a href="https://ffbiocodes.com/best-free-fire-tournament-apps-platforms/">tournament platform guide</a> before registering a squad name, or compare <a href="https://ffbiocodes.com/normal-free-fire-mobile-vs-pc/">Free Fire on mobile and PC</a> if you play on different devices. For sharing gameplay under your alias, the <a href="https://ffbiocodes.com/best-free-fire-screen-recording-apps-for-android/">screen-recording app guide</a> covers capturing clips, while the <a href="https://ffbiocodes.com/best-free-fire-video-editing-apps-for-android/">video-editing app guide</a> covers shaping them for sharing.</p>
+        </section>
+
+        <section class="fg-section fg-lazy-section" id="fg-check" aria-labelledby="fg-check-title">
+          <h2 id="fg-check-title">Check your name before confirming it</h2>
+          <p>Copyable text is not the same as guaranteed compatibility. Use the game’s preview and validation as the final check, especially when a name includes emojis, combining marks or unusual spacing.</p>
+          <ul class="fg-list">
+            <li><strong>Keep a short alternative.</strong> If a name is rejected, remove decoration and extra spacing first, then try a simpler lettering style. Our <a href="https://ffbiocodes.com/free-fire-alphabet-style-name-bio-code-for-gamer/">gamer-name alphabet bio ideas</a> are for profile bios, not a guarantee that the same designs will work in a nickname field.</li>
+            <li><strong>Watch for missing characters.</strong> Empty boxes or unexpected shapes can mean that the destination does not render a character as intended.</li>
+            <li><strong>Keep the finished nickname within 12 characters.</strong> The tool highlights its counter above 12 as a reminder to shorten your final name. Its larger 40- and 120-character editing allowances do not change this target. Different systems can count Unicode sequences differently, so confirm the accepted length in Free Fire before saving.</li>
+            <li><strong>Check availability separately.</strong> The generator creates text; it does not query Free Fire to reserve or verify a nickname.</li>
+            <li><strong>Keep the name respectful.</strong> Avoid personal information, abusive wording and names that impersonate another person or an official account.</li>
+          </ul>
+          <div class="fg-callout"><p><strong>If copying is blocked:</strong> select the nickname and copy it manually. Clipboard access can depend on browser permissions. In the builder, you can select the final text directly from the input.</p></div>
+        </section>
+
+        <section class="fg-section fg-lazy-section" id="fg-why" aria-labelledby="fg-why-title">
+          <h2 id="fg-why-title">What makes this a useful FF name style tool?</h2>
+          <p>The best tool for you is one that helps you move from an idea to a readable result. Here, live text conversion and detailed editing sit in the same workflow: compare 32 styles, send one to the builder, add a character, choose a frame and copy the result.</p>
+          <p>Search and category filters reduce the amount of browsing you need to do. Saved styles help you return to an alphabet you liked, while editable inputs give you control over the final text. On a phone, you can swipe the category rows to reach additional options.</p>
+          <p>Rather than choosing a <a href="https://ffbiocodes.com/100-cool-gaming-names-for-ff-player-in-2026/">nickname</a> only because it looks elaborate, choose one that fits your identity and remains legible. A short base name, a consistent alphabet and one finishing detail are a practical starting point for your own <a href="https://ffbiocodes.com/ff-name-style/">Free Fire name style</a>.</p>
+        </section>
+
+        <section class="fg-section fg-lazy-section" id="fg-faq" aria-labelledby="fg-faq-title">
+          <h2 id="fg-faq-title">FF Name Style: frequently asked questions</h2>
+          <p>Quick answers about creating, saving and using your Free Fire nickname.</p>
+          <div class="fg-accordion">
+            <div class="fg-faq-item">
+              <h3 class="fg-faq-question"><button class="fg-faq-trigger" type="button" id="fg-faq-trigger-1" aria-expanded="true" aria-controls="fg-faq-panel-1"><span>Is the FF Name Style tool free to use?</span><span class="fg-faq-icon" aria-hidden="true"></span></button></h3>
+              <div class="fg-faq-wrap" id="fg-faq-panel-1" aria-labelledby="fg-faq-trigger-1">
+                <div class="fg-faq-inner"><p class="fg-faq-answer">Yes. You can generate an ff name style, customise it with symbols and frames, and copy the result for free without creating a tool account. Any cost or requirement for changing your Free Fire nickname inside the game is separate.</p></div>
+              </div>
+            </div>
+            <div class="fg-faq-item">
+              <h3 class="fg-faq-question"><button class="fg-faq-trigger" type="button" id="fg-faq-trigger-2" aria-expanded="true" aria-controls="fg-faq-panel-2"><span>How do I copy and paste a stylish Free Fire nickname?</span><span class="fg-faq-icon" aria-hidden="true"></span></button></h3>
+              <div class="fg-faq-wrap" id="fg-faq-panel-2" aria-labelledby="fg-faq-trigger-2">
+                <div class="fg-faq-inner"><p class="fg-faq-answer">Type your base name in Cool Text Generator, then select Copy on the result card you like. To make more changes, select Customize, edit the name in Custom Nickname Builder and copy the final text. Paste it into the game's name-entry field and check the preview before confirming.</p></div>
+              </div>
+            </div>
+            <div class="fg-faq-item">
+              <h3 class="fg-faq-question"><button class="fg-faq-trigger" type="button" id="fg-faq-trigger-3" aria-expanded="true" aria-controls="fg-faq-panel-3"><span>Why do the tools allow 40 and 120 characters if my final name should stay within 12?</span><span class="fg-faq-icon" aria-hidden="true"></span></button></h3>
+              <div class="fg-faq-wrap" id="fg-faq-panel-3" aria-labelledby="fg-faq-trigger-3">
+                <div class="fg-faq-inner"><p class="fg-faq-answer">Cool Text Generator allows 40 characters for input and trying styles. Custom Nickname Builder allows 120 characters so you have room to edit a draft. These are tool editing limits: keep your final Free Fire nickname within 12 characters and check the game's validation, because Unicode sequences may be counted differently.</p></div>
+              </div>
+            </div>
+            <div class="fg-faq-item">
+              <h3 class="fg-faq-question"><button class="fg-faq-trigger" type="button" id="fg-faq-trigger-4" aria-expanded="true" aria-controls="fg-faq-panel-4"><span>Why do some nickname symbols appear as boxes or get rejected?</span><span class="fg-faq-icon" aria-hidden="true"></span></button></h3>
+              <div class="fg-faq-wrap" id="fg-faq-panel-4" aria-labelledby="fg-faq-trigger-4">
+                <div class="fg-faq-inner"><p class="fg-faq-answer">Some devices or apps cannot display every Unicode character, and the game may reject certain symbols or combinations. Remove unusual marks, extra spaces or emojis and try a simpler free fire name style. Always check the result in the game before confirming a name change.</p></div>
+              </div>
+            </div>
+            <div class="fg-faq-item">
+              <h3 class="fg-faq-question"><button class="fg-faq-trigger" type="button" id="fg-faq-trigger-5" aria-expanded="true" aria-controls="fg-faq-panel-5"><span>How can I make a girl or anime-inspired name style?</span><span class="fg-faq-icon" aria-hidden="true"></span></button></h3>
+              <div class="fg-faq-wrap" id="fg-faq-panel-5" aria-labelledby="fg-faq-trigger-5">
+                <div class="fg-faq-inner"><p class="fg-faq-answer">Start with your own alias, choose an alphabet such as Small Caps or Signature Script, and add a flower, heart, star or frame in the builder. There are no separate Girl or Anime filters; you create these looks using the existing styles and character collections. Keep the finished name readable and check it in-game.</p></div>
+              </div>
+            </div>
+            <div class="fg-faq-item">
+              <h3 class="fg-faq-question"><button class="fg-faq-trigger" type="button" id="fg-faq-trigger-6" aria-expanded="true" aria-controls="fg-faq-panel-6"><span>Where can I find the styles I saved?</span><span class="fg-faq-icon" aria-hidden="true"></span></button></h3>
+              <div class="fg-faq-wrap" id="fg-faq-panel-6" aria-labelledby="fg-faq-trigger-6">
+                <div class="fg-faq-inner"><p class="fg-faq-answer">Select the bookmark icon on a result card, then open the Saved filter in Cool Text Generator. Saved choices are styles, not a permanent collection of finished names, and they are stored in the current browser when storage is available. They may be lost if you clear browser data; when storage is blocked, they may last only for the current visit.</p></div>
+              </div>
+            </div>
+            <div class="fg-faq-item">
+              <h3 class="fg-faq-question"><button class="fg-faq-trigger" type="button" id="fg-faq-trigger-7" aria-expanded="true" aria-controls="fg-faq-panel-7"><span>What should I do if the Copy button does not work?</span><span class="fg-faq-icon" aria-hidden="true"></span></button></h3>
+              <div class="fg-faq-wrap" id="fg-faq-panel-7" aria-labelledby="fg-faq-trigger-7">
+                <div class="fg-faq-inner"><p class="fg-faq-answer">Select the nickname text and copy it manually, then paste it where you need it. You can select the final text directly in the builder input. Clipboard access can depend on your browser permissions, so a blocked Copy button does not mean the nickname itself is invalid.</p></div>
+              </div>
+            </div>
+            <div class="fg-faq-item">
+              <h3 class="fg-faq-question"><button class="fg-faq-trigger" type="button" id="fg-faq-trigger-8" aria-expanded="true" aria-controls="fg-faq-panel-8"><span>Does this tool check name availability or change my game name?</span><span class="fg-faq-icon" aria-hidden="true"></span></button></h3>
+              <div class="fg-faq-wrap" id="fg-faq-panel-8" aria-labelledby="fg-faq-trigger-8">
+                <div class="fg-faq-inner"><p class="fg-faq-answer">No. The tool creates and edits text; it does not connect to your Free Fire account, reserve a name or change your nickname in the game. Check availability and complete any name change inside Free Fire. You do not need to give this tool your game password.</p></div>
+              </div>
+            </div>
+            <div class="fg-faq-item">
+              <h3 class="fg-faq-question"><button class="fg-faq-trigger" type="button" id="fg-faq-trigger-9" aria-expanded="true" aria-controls="fg-faq-panel-9"><span>Is this the best FF name style tool for my needs?</span><span class="fg-faq-icon" aria-hidden="true"></span></button></h3>
+              <div class="fg-faq-wrap" id="fg-faq-panel-9" aria-labelledby="fg-faq-trigger-9">
+                <div class="fg-faq-inner"><p class="fg-faq-answer">If you want to compare fonts and edit a nickname in one place, this page offers 32 text styles, searchable formats, symbol collections, saved styles and a custom builder. Those features make it a useful option for creating a personal ff name style. The best choice depends on your preferences and whether your finished name is readable and accepted in-game.</p></div>
+              </div>
+            </div>
+            <div class="fg-faq-item">
+              <h3 class="fg-faq-question"><button class="fg-faq-trigger" type="button" id="fg-faq-trigger-10" aria-expanded="true" aria-controls="fg-faq-panel-10"><span>Where can I find one of the best Free Fire name styles for my profile?</span><span class="fg-faq-icon" aria-hidden="true"></span></button></h3>
+              <div class="fg-faq-wrap" id="fg-faq-panel-10" aria-labelledby="fg-faq-trigger-10">
+                <div class="fg-faq-inner"><p class="fg-faq-answer">You can explore free fire name style ideas in the generator on this page. Enter your alias, compare Clean, Bold, Fancy and Decorated results, then use Customize to add your own finishing touch. Choose a style that fits your profile and stays readable rather than assuming one design is best for everyone.</p></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <section class="fg-cta" aria-labelledby="fg-cta-title">
+          <h2 id="fg-cta-title">Your name. Your finishing touch.</h2>
+          <p>Start with an alias, compare the fonts and build a version you would actually want to use. Keep a plain-text backup, then test your favourite in-game.</p>
+          <a class="fg-button" href="https://ffbiocodes.com/ff-name-style/#ffns-tool">Create your FF name style <span aria-hidden="true">&nbsp;↗</span></a>
+        </section>
+        <footer class="fg-footer">Guide by 6ixus FF for FF Bio Code. This is an independent nickname tool, not an <a href="https://ff.garena.com/en">official Garena</a> service. Free Fire and related trademarks belong to their respective owners.</footer>
+      </div>
+    </div>
+  </div>
+</article>
+
+<!-- Keep FAQ schema wording in sync with the visible questions and answers. -->
+<script type="application/ld+json" id="fg-faq-schema">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://ffbiocodes.com/ff-name-style/#faq",
+  "inLanguage": "en",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is the FF Name Style tool free to use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You can generate an ff name style, customise it with symbols and frames, and copy the result for free without creating a tool account. Any cost or requirement for changing your Free Fire nickname inside the game is separate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I copy and paste a stylish Free Fire nickname?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Type your base name in Cool Text Generator, then select Copy on the result card you like. To make more changes, select Customize, edit the name in Custom Nickname Builder and copy the final text. Paste it into the game's name-entry field and check the preview before confirming."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do the tools allow 40 and 120 characters if my final name should stay within 12?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cool Text Generator allows 40 characters for input and trying styles. Custom Nickname Builder allows 120 characters so you have room to edit a draft. These are tool editing limits: keep your final Free Fire nickname within 12 characters and check the game's validation, because Unicode sequences may be counted differently."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do some nickname symbols appear as boxes or get rejected?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Some devices or apps cannot display every Unicode character, and the game may reject certain symbols or combinations. Remove unusual marks, extra spaces or emojis and try a simpler free fire name style. Always check the result in the game before confirming a name change."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I make a girl or anime-inspired name style?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Start with your own alias, choose an alphabet such as Small Caps or Signature Script, and add a flower, heart, star or frame in the builder. There are no separate Girl or Anime filters; you create these looks using the existing styles and character collections. Keep the finished name readable and check it in-game."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where can I find the styles I saved?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Select the bookmark icon on a result card, then open the Saved filter in Cool Text Generator. Saved choices are styles, not a permanent collection of finished names, and they are stored in the current browser when storage is available. They may be lost if you clear browser data; when storage is blocked, they may last only for the current visit."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What should I do if the Copy button does not work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Select the nickname text and copy it manually, then paste it where you need it. You can select the final text directly in the builder input. Clipboard access can depend on your browser permissions, so a blocked Copy button does not mean the nickname itself is invalid."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool check name availability or change my game name?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The tool creates and edits text; it does not connect to your Free Fire account, reserve a name or change your nickname in the game. Check availability and complete any name change inside Free Fire. You do not need to give this tool your game password."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this the best FF name style tool for my needs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If you want to compare fonts and edit a nickname in one place, this page offers 32 text styles, searchable formats, symbol collections, saved styles and a custom builder. Those features make it a useful option for creating a personal ff name style. The best choice depends on your preferences and whether your finished name is readable and accepted in-game."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where can I find one of the best Free Fire name styles for my profile?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can explore free fire name style ideas in the generator on this page. Enter your alias, compare Clean, Bold, Fancy and Decorated results, then use Customize to add your own finishing touch. Choose a style that fits your profile and stays readable rather than assuming one design is best for everyone."
+      }
+    }
+  ]
+}
+</script>
+<script>
+(() => {
+  'use strict';
+  const accordion = document.querySelector('#ffns-guide .fg-accordion');
+  if (!accordion || accordion.dataset.ready) return;
+  const items = Array.from(accordion.querySelectorAll('.fg-faq-item'));
+  function setOpen(item, open) {
+    item.classList.toggle('fg-open', open);
+    item.querySelector('.fg-faq-trigger').setAttribute('aria-expanded', String(open));
+    const panel = item.querySelector('.fg-faq-wrap');
+    panel.setAttribute('aria-hidden', String(!open));
+    panel.toggleAttribute('inert', !open);
+  }
+  items.forEach(item => {
+    item.querySelector('.fg-faq-trigger').addEventListener('click', () => {
+      const open = !item.classList.contains('fg-open');
+      items.forEach(other => setOpen(other, other === item && open));
+    });
+    setOpen(item, false);
+  });
+  accordion.classList.add('fg-faq-ready');
+  accordion.dataset.ready = 'true';
+})();
+</script>
+
