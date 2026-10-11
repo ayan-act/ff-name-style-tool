@@ -1,34 +1,49 @@
-# FF Name Style generator
+# FF Name Style Tool
 
-Source files for the [FF Name Style tool on FF Bio Code](https://ffbiocodes.com/ff-name-style/). The live page lets players turn a base name into copyable Unicode text, explore symbols, and assemble a custom nickname. This repository documents the page components and makes them easier to review and maintain.
+The source components behind the [FF Name Style nickname generator](https://ffbiocodes.com/ff-name-style/) from FF Bio Code. Create copyable Unicode lettering, compare 32 text styles, and refine a draft with symbols and frames in the live browser tool.
 
-## What is here
+**[Open the live generator](https://ffbiocodes.com/ff-name-style/)** · [Read the usage guide](https://ffbiocodes.com/free-fire-name-fonts-explained/) · [Explore the site resource map](docs/RESOURCE_MAP.md)
 
-| File | Purpose |
+## What this repository contains
+
+| File | Role |
 | --- | --- |
-| [`source/ff name style.html`](source/ff%20name%20style.html) | Generator markup, styles, metadata, structured data, and browser logic |
-| [`source/FFNAMESTYLE-BODY.HTML`](source/FFNAMESTYLE-BODY.HTML) | Usage guide, examples, accessibility details, and FAQ |
-| [`source/ffnamestyle-author bio.html`](source/ffnamestyle-author%20bio.html) | About-the-creator section |
+| [`source/ff name style.html`](source/ff%20name%20style.html) | Generator markup, scoped styling, client-side logic, and page metadata |
+| [`source/FFNAMESTYLE-BODY.HTML`](source/FFNAMESTYLE-BODY.HTML) | Player-facing guide, examples, FAQ, and FAQ structured data |
+| [`source/ffnamestyle-author bio.html`](source/ffnamestyle-author%20bio.html) | About-the-creator component |
 | [`source/preview.html`](source/preview.html) | Separate Free Fire bio preview gallery component |
+| [`docs/INTEGRATION.md`](docs/INTEGRATION.md) | Integration and release notes for maintainers |
+| [`docs/RESOURCE_MAP.md`](docs/RESOURCE_MAP.md) | Categorized index of published FF Bio Code pages and posts |
+| [`docs/REPOSITORY_PROFILE.md`](docs/REPOSITORY_PROFILE.md) | Intended GitHub description, website, and topics |
 
-These files are page components intended for the existing FF Bio Code website. They are not a complete standalone website or an official Garena project. The bio preview gallery is included for source reference; it is not part of the nickname generator.
+These HTML files are components for the existing website. They are **not** a standalone site or an official game client. The bio preview gallery is included for source reference and is independent of the nickname generator.
 
-## Use the generator
+## Player workflow
 
-1. Open the [live FF Name Style page](https://ffbiocodes.com/ff-name-style/).
-2. Enter a short base name and compare the available text styles.
-3. Copy a result, or send it to the custom nickname builder to add a symbol or frame.
-4. Paste the final text into the destination app and check its appearance and acceptance before confirming a name change.
+1. Enter a base name in the [live generator](https://ffbiocodes.com/ff-name-style/).
+2. Compare the available lettering styles and copy a result, or continue in Custom Nickname Builder.
+3. Add a small number of symbols or a frame, then copy the final draft.
+4. Paste it into the destination app. Check rendering, accepted length, and availability there before confirming a name change.
 
-The generated output uses Unicode characters, not an installed font. Appearance and acceptance can vary by device and app. The generator's input limits are editing limits; they do not override the game's current naming rules. Never enter a game password into a nickname tool.
+The output uses Unicode characters rather than installed fonts. The game's current rules determine which names it accepts. The generator's text-entry limits are editing limits, not a promise that a final name will be accepted. For a closer explanation, see [Free Fire name fonts and Unicode](https://ffbiocodes.com/free-fire-name-fonts-explained/) and the companion [Unicode nickname inspector](https://github.com/ayan-act/free-fire-nickname-style-guide).
 
-## Working with the source
+## Developer notes
 
-The main tool is plain HTML, CSS, and JavaScript. Its optional Google Fonts request affects presentation; the nickname conversion runs in the browser. When integrating the source, retain a single page title, canonical URL, and primary heading on the published page. Review structured data against visible page content before deployment. Keep the existing site's navigation, other tools, and theme integration intact.
+- **Runtime:** HTML, CSS, and browser JavaScript. The generator does not require a game login.
+- **State:** Saved style preferences use browser storage when available; finished nicknames are not a server-side account collection.
+- **Accessibility:** Preserve semantic controls, keyboard focus, status messages, and the FAQ interaction when integrating components.
+- **Page metadata:** The live website is the canonical page. Keep a single title, canonical URL, primary heading, and accurate structured data in the published document.
+- **Release process:** Review [`docs/INTEGRATION.md`](docs/INTEGRATION.md) before replacing a production component.
 
-This repository does not enable GitHub Pages because the canonical live experience is the website linked above.
+No GitHub Pages copy is published from this repository. The [live FF Bio Code page](https://ffbiocodes.com/ff-name-style/) remains the destination for using the tool.
 
-## Project status
+## Related FF Bio Code resources
 
-Maintained as a source and documentation repository for FF Bio Code. This is a fan-made nickname formatting tool and is not affiliated with or endorsed by Garena or Free Fire.
+- [100+ gaming name ideas](https://ffbiocodes.com/100-cool-gaming-names-for-ff-player-in-2026/) for choosing a base name.
+- [Stylish Free Fire bio guide](https://ffbiocodes.com/how-to-create-a-stylish-free-fire-bio-in-2026/) for the separate profile bio field.
+- [Full site resource map](docs/RESOURCE_MAP.md) for other published guides, site information, and policies.
+
+## Project status and attribution
+
+Maintained as a source and documentation repository for [FF Bio Code](https://ffbiocodes.com/). This is an independent, fan-made tool and is not affiliated with or endorsed by Garena or Free Fire. Third-party names and trademarks belong to their respective owners. No open-source license is asserted here; contact the project owner before reusing the source outside this project.
 
