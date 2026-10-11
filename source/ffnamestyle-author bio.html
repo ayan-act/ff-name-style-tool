@@ -1,0 +1,664 @@
+<style>
+  .obc-section,
+  .obc-section * {
+    box-sizing: border-box;
+  }
+
+  .obc-section {
+    --obc-ink: #6377e9;
+    --obc-muted: #c7bbab;
+    --obc-gold: #6377e9;
+    --obc-gold-soft: #f6d594;
+    --obc-line: rgba(242, 205, 132, 0.2);
+    --obc-panel: rgba(21, 19, 17, 0.74);
+    /* Stable footprint while the inert component is deferred. */
+    --obc-reserved-block-size: 900px;
+    isolation: isolate;
+    position: relative;
+    overflow: hidden;
+    min-block-size: var(--obc-reserved-block-size);
+    content-visibility: auto;
+    contain-intrinsic-size: auto var(--obc-reserved-block-size);
+    padding: clamp(56px, 8vw, 112px) 20px;
+    color: var(--obc-ink);
+    background:
+      radial-gradient(circle at 10% 12%, rgba(221, 166, 73, 0.17), transparent 25rem),
+      radial-gradient(circle at 92% 78%, rgba(132, 85, 28, 0.2), transparent 26rem),
+      linear-gradient(125deg, #080a0f 0%, #16120f 48%, #0b0d12 100%);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  .obc-section.obc-hydrated {
+    min-block-size: 0;
+    contain-intrinsic-size: auto none;
+  }
+
+  .obc-section::before,
+  .obc-section::after {
+    position: absolute;
+    z-index: -1;
+    content: "";
+    pointer-events: none;
+  }
+
+  .obc-section::before {
+    width: min(52vw, 720px);
+    aspect-ratio: 1;
+    top: -28%;
+    right: -14%;
+    border: 1px solid rgba(246, 213, 148, 0.12);
+    border-radius: 50%;
+    box-shadow: 0 0 90px rgba(233, 186, 99, 0.1), inset 0 0 80px rgba(233, 186, 99, 0.035);
+  }
+
+  .obc-section::after {
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    opacity: 0.18;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.46) 0.55px, transparent 0.6px);
+    background-size: 7px 7px;
+    mix-blend-mode: soft-light;
+  }
+
+  .obc-shell {
+    position: relative;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(24px, 4vw, 52px);
+    overflow: hidden;
+    border: 1px solid var(--obc-line);
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.025));
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(255, 255, 255, 0.025) inset;
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+
+  .obc-shell::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    pointer-events: none;
+    background: linear-gradient(120deg, rgba(255, 236, 190, 0.09), transparent 25%, transparent 74%, rgba(233, 186, 99, 0.07));
+  }
+
+  .obc-grid {
+    position: relative;
+    display: grid;
+    align-items: center;
+    gap: clamp(38px, 7vw, 86px);
+  }
+
+  .obc-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 16px;
+    color: var(--obc-gold-soft);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+  }
+
+  .obc-eyebrow::before {
+    width: 28px;
+    height: 1px;
+    content: "";
+    background: currentColor;
+  }
+
+  .obc-title {
+    max-width: 640px;
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.35rem, 5.2vw, 4.65rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+    text-wrap: balance;
+  }
+
+  .obc-subtitle {
+    max-width: 520px;
+    margin: 20px 0 0;
+    color: var(--obc-gold-soft);
+    font-size: clamp(1rem, 1.8vw, 1.18rem);
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  .obc-copy {
+    max-width: 620px;
+    margin-top: 28px;
+  }
+
+  .obc-copy-title {
+    margin: 0 0 12px;
+    color: #f2dfbd;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    line-height: 1.35;
+  }
+
+  .obc-copy p {
+    margin: 0 0 14px;
+    color: var(--obc-muted);
+    font-size: 0.98rem;
+    line-height: 1.76;
+  }
+
+  .obc-copy p:last-child {
+    margin-bottom: 0;
+  }
+
+  .obc-trust-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 30px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .obc-trust-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    min-height: 42px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 237, 198, 0.12);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.045);
+    color: #f7fdf7;
+    font-size: 0.76rem;
+    font-weight: 650;
+    line-height: 1.25;
+  }
+
+  .obc-check {
+    flex: 0 0 auto;
+    display: grid;
+    width: 18px;
+    height: 18px;
+    place-items: center;
+    border-radius: 50%;
+    background: #06c406;
+    color: var(--obc-gold-soft);
+    font-size: 0.72rem;
+    font-weight: 900;
+  }
+
+  .obc-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+  }
+
+  .obc-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 12px 19px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+  }
+
+  .obc-button--primary {
+    color: #1a1208;
+    background: linear-gradient(135deg, #f6d594, #dca64c);
+    box-shadow: 0 10px 24px rgba(219, 163, 71, 0.22);
+  }
+
+  .obc-button--secondary {
+    border-color: rgba(246, 213, 148, 0.32);
+    color: var(--obc-gold-soft);
+    background: #f6d594;
+  }
+
+  .obc-button:hover {
+    transform: translateY(-2px);
+  }
+
+  .obc-button--primary:hover {
+    box-shadow: 0 14px 30px rgba(219, 163, 71, 0.32);
+  }
+
+  .obc-button--secondary:hover {
+    background: rgba(233, 186, 99, 0.12);
+  }
+
+  .obc-button:focus-visible {
+    outline: 3px solid #f6d594;
+    outline-offset: 3px;
+  }
+
+  .obc-player-id {
+    position: relative;
+    width: min(100%, 490px);
+    margin-top: 22px;
+    overflow: visible;
+  }
+
+  .obc-player-id__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 28px;
+  }
+
+  .obc-player-id__copy {
+    position: absolute;
+    top: 18%;
+    right: 3.5%;
+    width: 28%;
+    height: 64%;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    color: transparent;
+    background: transparent;
+    transition: background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+    cursor: pointer;
+  }
+
+  .obc-player-id__copy:hover {
+    background: rgba(255, 255, 255, 0.09);
+    box-shadow: 0 0 18px rgba(202, 127, 255, 0.42), inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+    transform: translateY(-1px);
+  }
+
+  .obc-player-id__copy:focus-visible {
+    outline: 3px solid #ffc426;
+    outline-offset: 3px;
+  }
+
+  .obc-portrait {
+    position: relative;
+    max-width: 505px;
+    margin: 0 auto;
+  }
+
+  .obc-portrait::before {
+    position: absolute;
+    z-index: -1;
+    width: 74%;
+    height: 74%;
+    top: 13%;
+    right: 5%;
+    content: "";
+    border-radius: 50%;
+    background: rgba(233, 186, 99, 0.22);
+    filter: blur(48px);
+  }
+
+  .obc-portrait-frame {
+    position: relative;
+    overflow: hidden;
+    padding: 10px;
+    border: 1px solid rgba(246, 213, 148, 0.34);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 28px 48px rgba(0, 0, 0, 0.36), 0 0 36px rgba(233, 186, 99, 0.11);
+    transform: rotate(1.2deg);
+  }
+
+  .obc-portrait-frame::after {
+    position: absolute;
+    inset: 10px;
+    content: "";
+    pointer-events: none;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 17px;
+  }
+
+  .obc-portrait img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: 17px;
+    object-fit: cover;
+    background: #17130f;
+  }
+
+  .obc-image-label {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    max-width: 72%;
+    margin: 0;
+    padding: 10px 13px;
+    border: 1px solid rgba(246, 213, 148, 0.2);
+    border-radius: 12px;
+    background: rgba(12, 11, 10, 0.67);
+    color: #f7ead5;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.035em;
+    line-height: 1.35;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  .obc-image-label strong {
+    display: block;
+    margin-bottom: 2px;
+    color: var(--obc-gold-soft);
+    font-size: 0.64rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .obc-hydrated .obc-reveal {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  .obc-hydrated.obc-ready .obc-reveal {
+    transition: opacity 520ms ease-out, transform 520ms ease-out;
+  }
+
+  .obc-hydrated.obc-ready .obc-reveal.obc-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (min-width: 820px) {
+    .obc-grid {
+      grid-template-columns: minmax(0, 1.13fr) minmax(330px, 0.87fr);
+    }
+
+    .obc-portrait {
+      margin-right: 0;
+    }
+
+    .obc-trust-list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 470px) {
+    .obc-section {
+      --obc-reserved-block-size: 1740px;
+    }
+
+    .obc-shell {
+      padding: 24px 18px;
+      border-radius: 22px;
+    }
+
+    .obc-trust-list {
+      grid-template-columns: 1fr;
+    }
+
+    .obc-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .obc-button {
+      width: 100%;
+    }
+
+    .obc-player-id {
+      border-radius: 23px;
+    }
+
+    .obc-player-id__copy {
+      top: 18%;
+      right: 3.5%;
+      width: 28%;
+      height: 64%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .obc-button,
+    .obc-player-id__copy,
+    .obc-hydrated.obc-ready .obc-reveal {
+      transition: none;
+    }
+
+    .obc-button:hover,
+    .obc-player-id__copy:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<section class="obc-section" aria-label="About the Creator">
+  <img src="https://ffbiocodes.com/wp-content/uploads/2026/07/image.webp" alt="Developer of FFBioCodes" width="999" height="1000" loading="lazy" decoding="async" fetchpriority="low" hidden="">
+  <!-- Inert until the section is within the observer's preload margin. -->
+  <template class="obc-template">
+  <div class="obc-shell">
+    <div class="obc-grid">
+      <article class="obc-content obc-reveal">
+        <header>
+          <p class="obc-eyebrow">FF Name Style Developer</p>
+          <h2 id="obc-title" class="obc-title">MEET THE DEVELOPER</h2>
+          <p class="obc-subtitle">Building useful tools for the Free Fire community.</p>
+        </header>
+
+        <div class="obc-copy">
+          <h3 class="obc-copy-title">Built for a better player experience</h3>
+          <p>Ayan Karmakar, known as 6ixus FF, is a WordPress developer, SEO specialist and Free Fire content creator. He built FF Bio Code and the FF Name Style tool to help players personalise their profiles and nicknames with stylish text, symbols and frames, focusing on ease of use, readability and a smooth mobile experience.</p>
+        </div>
+
+        <ul class="obc-trust-list" aria-label="FF Bio Codes trust commitments">
+          <li><span class="obc-check" aria-hidden="true">✓</span>Regularly Updated</li>
+          <li><span class="obc-check" aria-hidden="true">✓</span>100% Free to Use</li>
+          <li><span class="obc-check" aria-hidden="true">✓</span>Manual Quality Review</li>
+          <li><span class="obc-check" aria-hidden="true">✓</span>Copy &amp; Paste Ready</li>
+          <li><span class="obc-check" aria-hidden="true">✓</span>Mobile Friendly</li>
+          <li><span class="obc-check" aria-hidden="true">✓</span>Trusted by Free Fire Players</li>
+        </ul>
+
+        <nav class="obc-actions" aria-label="Creator information links">
+          <a class="obc-button obc-button--primary" href="https://github.com/ayan-act/">GitHub</a>
+          <a class="obc-button obc-button--primary" href="https://www.linkedin.com/in/the-ayan/">LinkedIn</a>
+          <a class="obc-button obc-button--primary" href="mailto:Support@ffbiocodes.com">Email</a>
+        </nav>
+
+        <div class="obc-player-id" aria-label="Free Fire player ID">
+          <img class="obc-player-id__image" data-src="https://ffbiocodes.com/wp-content/uploads/2026/10/6ixus-ff-free-fire-Game-id.avif" alt="My Free Fire ID: 1846016849" width="520" height="109" decoding="async">
+          <button class="obc-player-id__copy" type="button" data-player-id="1846016849" aria-label="Copy Free Fire ID 1846016849">
+            <span class="obc-player-id__copy-text">.</span>
+          </button>
+        </div>
+      </article>
+
+      <figure class="obc-portrait obc-reveal">
+        <div class="obc-portrait-frame">
+          <img class="obc-portrait-image" data-src="https://ffbiocodes.com/wp-content/uploads/2026/07/image.webp" alt="Developer of FFBioCodes" width="999" height="1000" loading="lazy" decoding="async" fetchpriority="low">
+          <figcaption class="obc-image-label"><strong>MEET THE DEVELOPER</strong>Ayan Karmakar</figcaption>
+        </div>
+      </figure>
+    </div>
+  </div>
+  </template>
+</section>
+
+<script>
+  (function () {
+    "use strict";
+
+    var fallbackPortrait = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1280'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23221a11'/%3E%3Cstop offset='.5' stop-color='%23111116'/%3E%3Cstop offset='1' stop-color='%2308090d'/%3E%3C/linearGradient%3E%3CradialGradient id='b' cx='72%25' cy='22%25' r='60%25'%3E%3Cstop stop-color='%23e7b85f' stop-opacity='.5'/%3E%3Cstop offset='1' stop-color='%23e7b85f' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='1024' height='1280' fill='url(%23a)'/%3E%3Crect width='1024' height='1280' fill='url(%23b)'/%3E%3Ccircle cx='512' cy='446' r='126' fill='%23e8d1aa' fill-opacity='.22'/%3E%3Cpath d='M238 1112c28-255 143-387 274-387s246 132 274 387' fill='%23e8d1aa' fill-opacity='.17'/%3E%3Cpath d='M94 1045c208-108 623-108 836 0' fill='none' stroke='%23e7b85f' stroke-opacity='.32' stroke-width='2'/%3E%3C/svg%3E";
+
+    function revealAfterImage(section, revealItems) {
+      section.classList.add("obc-ready");
+      window.requestAnimationFrame(function () {
+        revealItems.forEach(function (item) {
+          item.classList.add("obc-visible");
+        });
+      });
+    }
+
+    function waitForImageThenReveal(section, portraitImage, revealItems) {
+      var revealed = false;
+
+      function revealOnce() {
+        if (revealed) {
+          return;
+        }
+        revealed = true;
+        revealAfterImage(section, revealItems);
+      }
+
+      function decodeThenReveal() {
+        if (typeof portraitImage.decode !== "function") {
+          revealOnce();
+          return;
+        }
+        portraitImage.decode().then(revealOnce, revealOnce);
+      }
+
+      portraitImage.addEventListener("load", decodeThenReveal, { once: true });
+      portraitImage.addEventListener("error", function () {
+        if (!portraitImage.dataset.fallbackApplied) {
+          portraitImage.dataset.fallbackApplied = "true";
+          portraitImage.alt = "Neutral creator portrait placeholder";
+          portraitImage.src = fallbackPortrait;
+          return;
+        }
+        revealOnce();
+      });
+
+      /* The URL is assigned only after IntersectionObserver activation. */
+      portraitImage.src = portraitImage.dataset.src;
+      portraitImage.removeAttribute("data-src");
+    }
+
+    function copyPlayerId(button) {
+      var playerId = button.dataset.playerId;
+      var copyText = button.querySelector(".obc-player-id__copy-text");
+      var originalText = copyText ? copyText.textContent : "Copy";
+
+      function showCopied() {
+        if (!copyText) {
+          return;
+        }
+        copyText.textContent = ".";
+        window.setTimeout(function () {
+          copyText.textContent = originalText;
+        }, 1800);
+      }
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(playerId).then(showCopied, function () {});
+        return;
+      }
+
+      var textArea = document.createElement("textarea");
+      textArea.value = playerId;
+      textArea.setAttribute("readonly", "");
+      textArea.style.position = "fixed";
+      textArea.style.opacity = "0";
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        if (document.execCommand("copy")) {
+          showCopied();
+        }
+      } finally {
+        textArea.remove();
+      }
+    }
+
+    function loadPlayerIdImage(image) {
+      if (!image || !image.dataset.src) {
+        return;
+      }
+
+      image.src = image.dataset.src;
+      image.removeAttribute("data-src");
+    }
+
+    function observePlayerIdImage(image) {
+      if (!window.IntersectionObserver) {
+        loadPlayerIdImage(image);
+        return;
+      }
+
+      var imageObserver = new IntersectionObserver(function (entries, currentObserver) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) {
+            return;
+          }
+          currentObserver.unobserve(entry.target);
+          loadPlayerIdImage(entry.target);
+        });
+      }, {
+        rootMargin: "0px",
+        threshold: 0
+      });
+
+      imageObserver.observe(image);
+    }
+
+    function hydrateSection(section) {
+      if (section.dataset.hydrated) {
+        return;
+      }
+
+      section.dataset.hydrated = "true";
+      var template = section.querySelector(".obc-template");
+      if (!template) {
+        return;
+      }
+
+      section.classList.add("obc-hydrated");
+      section.replaceChildren(template.content.cloneNode(true));
+
+      observePlayerIdImage(section.querySelector(".obc-player-id__image"));
+
+      var playerIdCopyButton = section.querySelector(".obc-player-id__copy");
+      if (playerIdCopyButton) {
+        playerIdCopyButton.addEventListener("click", function () {
+          copyPlayerId(playerIdCopyButton);
+        });
+      }
+
+      var revealItems = section.querySelectorAll(".obc-reveal");
+      var portraitImage = section.querySelector(".obc-portrait-image");
+      if (!portraitImage) {
+        revealAfterImage(section, revealItems);
+        return;
+      }
+
+      waitForImageThenReveal(section, portraitImage, revealItems);
+    }
+
+    document.querySelectorAll(".obc-section").forEach(function (section) {
+      if (!window.IntersectionObserver) {
+        hydrateSection(section);
+        return;
+      }
+
+      var observer = new IntersectionObserver(function (entries, currentObserver) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) {
+            return;
+          }
+          currentObserver.unobserve(entry.target);
+          hydrateSection(entry.target);
+        });
+      }, {
+        rootMargin: "300px 0px",
+        threshold: 0
+      });
+
+      observer.observe(section);
+    });
+
+  }());
+</script>
